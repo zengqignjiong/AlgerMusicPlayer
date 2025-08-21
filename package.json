@@ -1,10 +1,10 @@
 {
-  "name": "AlgerMusicPlayer",
+  "name": "FinderMusicPlayer",
   "version": "4.9.0",
-  "description": "Alger Music Player",
-  "author": "Alger <algerkc@qq.com>",
+  "description": "Finder Music Player",
+  "author": "Finder <Finderkc@qq.com>",
   "main": "./out/main/index.js",
-  "homepage": "https://github.com/algerkong/AlgerMusicPlayer",
+  "homepage": "https://github.com/Finderkong/FinderMusicPlayer",
   "scripts": {
     "prepare": "husky",
     "format": "prettier --write .",
@@ -98,13 +98,13 @@
     "vue-tsc": "^2.0.22"
   },
   "build": {
-    "appId": "com.alger.music",
-    "productName": "AlgerMusicPlayer",
+    "appId": "com.Finder.music",
+    "productName": "FinderMusicPlayer",
     "publish": [
       {
         "provider": "github",
-        "owner": "algerkong",
-        "repo": "AlgerMusicPlayer"
+        "owner": "Finderkong",
+        "repo": "FinderMusicPlayer"
       }
     ],
     "extraResources": [
@@ -136,7 +136,7 @@
       "identity": null,
       "type": "distribution",
       "binaries": [
-        "Contents/MacOS/AlgerMusicPlayer"
+        "Contents/MacOS/FinderMusicPlayer"
       ]
     },
     "win": {
@@ -181,7 +181,7 @@
       ],
       "artifactName": "${productName}-${version}-linux-${arch}.${ext}",
       "category": "Audio",
-      "maintainer": "Alger <algerkc@qq.com>"
+      "maintainer": "Finder <Finderkc@qq.com>"
     },
     "nsis": {
       "oneClick": false,
@@ -190,7 +190,7 @@
       "uninstallerIcon": "resources/icon.ico",
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "AlgerMusicPlayer",
+      "shortcutName": "FinderMusicPlayer",
       "include": "build/installer.nsh"
     }
   }

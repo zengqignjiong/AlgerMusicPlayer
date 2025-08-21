@@ -1,6 +1,6 @@
 <template>
   <div id="title-bar" @mousedown="drag">
-    <div id="title">Alger Music</div>
+    <div id="title">Finder Music</div>
     <div id="buttons">
       <n-button
         v-if="!isElectron"

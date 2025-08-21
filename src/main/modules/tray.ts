@@ -408,7 +408,7 @@ export function initializeTray(iconPath: string, mainWindow: BrowserWindow) {
   tray = new Tray(trayIcon);
 
   // 设置托盘图标的提示文字
-  tray.setToolTip('Alger Music Player');
+  tray.setToolTip('Finder Music Player');
 
   // 初始化菜单
   updateTrayMenu(mainWindow);

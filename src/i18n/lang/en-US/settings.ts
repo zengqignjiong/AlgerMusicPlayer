@@ -168,7 +168,7 @@ export default {
     gotoUpdate: 'Go to Update',
     gotoGithub: 'Go to Github',
     author: 'Author',
-    authorDesc: 'algerkong Give a star🌟',
+    authorDesc: 'Finderkong Give a star🌟',
     messages: {
       checkError: 'Failed to check for updates, please try again later'
     }

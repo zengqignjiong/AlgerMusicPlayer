@@ -327,7 +327,7 @@ const toGithubRelease = () => {
   if (updateInfo.value.hasUpdate) {
     settingsStore.showUpdateModal = true;
   } else {
-    window.open('https://github.com/algerkong/AlgerMusicPlayer/releases', '_blank');
+    window.open('https://github.com/Finderkong/FinderMusicPlayer/releases', '_blank');
   }
 };
 </script>
