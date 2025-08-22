@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript" src="./json2.js"></script>
+<script type="text/javascript" src="./client.js?d=2018-12-19_16:00:00"></script>
+<script type="text/javascript">
+function SignDataAsPem(){
+	EportClient.isInstalledTest(EportClient.cusSpcSignDataAsPEM,
+			document.getElementById("txt1").value,"88888888",function(msg,msgJson){
+		console.log(JSON.stringify(msg));
+		document.getElementById("txt2").value=JSON.stringify(msg);
+	});
+}
+
+
+</script>
+<title>首页</title>
+</head>
+<body>
+    <h1>请求成功</h1>
+    <textarea rows="30" cols="60" id="txt1"></textarea>
+    <textarea rows="30" cols="60" id="txt2"></textarea>
+    <button onclick="SignDataAsPem()">加签</button>
+</body>
+</html>
