@@ -90,15 +90,21 @@ install_dependencies() {
 prepare_deploy_directory() {
     echo "📁 准备部署目录..."
     
-    sudo mkdir -p $DEPLOY_DIR
-    sudo chown -R $USER:$USER $DEPLOY_DIR
+    # 获取当前目录作为实际的部署目录
+    ACTUAL_DEPLOY_DIR=$(pwd)
+    echo "📂 实际部署目录: $ACTUAL_DEPLOY_DIR"
     
-    # 如果目录已存在，备份旧版本
-    if [ -d "$DEPLOY_DIR/src" ]; then
-        echo "📦 备份旧版本..."
-        sudo mv $DEPLOY_DIR $DEPLOY_DIR.backup.$(date +%Y%m%d_%H%M%S)
-        sudo mkdir -p $DEPLOY_DIR
-        sudo chown -R $USER:$USER $DEPLOY_DIR
+    # 检查是否在项目根目录
+    if [ ! -f "package.json" ]; then
+        echo "❌ 当前目录不是项目根目录"
+        echo "💡 请在包含 package.json 的目录运行此脚本"
+        exit 1
+    fi
+    
+    # 确保有写权限
+    if [ ! -w "." ]; then
+        echo "⚠️  当前目录无写权限，尝试修复..."
+        sudo chown -R $USER:$USER .
     fi
     
     echo "✅ 部署目录准备完成"
@@ -108,14 +114,24 @@ prepare_deploy_directory() {
 build_frontend() {
     echo "🏗️ 构建前端项目..."
     
-    cd $DEPLOY_DIR
-    
-    # 如果当前目录已有代码，则直接使用
+    # 检查是否在正确的项目目录中运行
     if [ ! -f "package.json" ]; then
-        echo "❌ 当前目录没有找到项目代码，请先将代码上传到 $DEPLOY_DIR"
-        echo "   可以使用 git clone 或直接上传项目文件"
+        echo "❌ 当前目录 $(pwd) 没有找到项目代码"
+        echo "📍 检测到的目录结构:"
+        ls -la
+        echo ""
+        echo "💡 请确认:"
+        echo "   1. 代码已正确上传到服务器"
+        echo "   2. 在项目根目录运行脚本 (包含 package.json 的目录)"
+        echo ""
+        echo "🔄 如果代码在其他位置，请:"
+        echo "   cd /path/to/your/project"
+        echo "   ./deploy/deploy-debian.sh"
         exit 1
     fi
+    
+    echo "✅ 找到项目文件 package.json"
+    echo "📂 当前工作目录: $(pwd)"
     
     # 检查系统内存
     echo "📊 检查系统资源..."
@@ -192,9 +208,7 @@ build_frontend() {
 deploy_netease_api() {
     echo "🎵 部署网易云音乐 API..."
     
-    cd $DEPLOY_DIR
-    
-    # 创建 API 目录
+    # 在当前项目目录中创建 API 目录
     mkdir -p netease-api
     cd netease-api
     
@@ -247,7 +261,9 @@ EOF
 deploy_nginx() {
     echo "🌐 部署 Nginx 和前端..."
     
-    cd $DEPLOY_DIR/deploy/nginx
+    # 回到项目根目录，然后进入 nginx 配置目录
+    cd "$(dirname "${BASH_SOURCE[0]}")"/../  # 回到项目根目录
+    cd deploy/nginx
     
     # 更新 nginx 配置中的 API 端口
     sed -i "s/127\.0\.0\.1:30488/127.0.0.1:$NETEASE_API_PORT/g" conf/music.conf
@@ -309,14 +325,14 @@ show_deployment_info() {
     echo "   http://localhost:$NETEASE_API_PORT"
     echo "   http://$(hostname -I | awk '{print $1}'):$NETEASE_API_PORT"
     echo ""
-    echo "📂 部署目录: $DEPLOY_DIR"
+    echo "📂 部署目录: $(pwd)"
     echo "🐳 Docker 容器状态:"
     docker ps --filter "name=nginx" --filter "name=netease-api" --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
     echo ""
     echo "📋 管理命令:"
-    echo "   查看日志: docker-compose -f $DEPLOY_DIR/deploy/nginx/docker-compose-nginx.yml logs -f"
-    echo "   重启服务: cd $DEPLOY_DIR && ./deploy-debian.sh restart"
-    echo "   停止服务: cd $DEPLOY_DIR && ./deploy-debian.sh stop"
+    echo "   查看日志: docker-compose -f $(pwd)/deploy/nginx/docker-compose-nginx.yml logs -f"
+    echo "   重启服务: cd $(pwd) && ./deploy/deploy-debian.sh restart"
+    echo "   停止服务: cd $(pwd) && ./deploy/deploy-debian.sh stop"
     echo ""
 }
 
@@ -324,10 +340,13 @@ show_deployment_info() {
 restart_services() {
     echo "🔄 重启服务..."
     
-    cd $DEPLOY_DIR/netease-api
+    # 获取项目根目录
+    PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+    
+    cd "$PROJECT_ROOT/netease-api"
     docker-compose restart
     
-    cd $DEPLOY_DIR/deploy/nginx
+    cd "$PROJECT_ROOT/deploy/nginx"
     docker-compose -f docker-compose-nginx.yml restart
     
     echo "✅ 服务重启完成"
@@ -338,10 +357,13 @@ restart_services() {
 stop_services() {
     echo "🛑 停止服务..."
     
-    cd $DEPLOY_DIR/netease-api
+    # 获取项目根目录
+    PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+    
+    cd "$PROJECT_ROOT/netease-api"
     docker-compose down
     
-    cd $DEPLOY_DIR/deploy/nginx
+    cd "$PROJECT_ROOT/deploy/nginx"
     docker-compose -f docker-compose-nginx.yml down
     
     echo "✅ 服务已停止"
