@@ -117,12 +117,65 @@ build_frontend() {
         exit 1
     fi
     
-    # 安装依赖
+    # 检查系统内存
+    echo "📊 检查系统资源..."
+    echo "内存使用情况:"
+    free -h
+    echo "磁盘空间:"
+    df -h /opt
+    
+    # 安装依赖 (添加内存优化参数)
     echo "📦 安装前端依赖..."
-    npm install
+    echo "⚠️  如果内存不足，将使用优化参数..."
+    
+    # 检查可用内存 (MB)
+    AVAILABLE_MEM=$(free -m | awk 'NR==2{printf "%.0f", $7}')
+    echo "可用内存: ${AVAILABLE_MEM}MB"
+    
+    if [ "$AVAILABLE_MEM" -lt 512 ]; then
+        echo "⚠️  内存不足，使用低内存模式安装..."
+        # 创建临时交换文件
+        if [ ! -f /swapfile ]; then
+            echo "📁 创建临时交换文件 (1GB)..."
+            sudo dd if=/dev/zero of=/swapfile bs=1M count=1024
+            sudo chmod 600 /swapfile
+            sudo mkswap /swapfile
+            sudo swapon /swapfile
+        fi
+        
+        # 使用低内存参数安装
+        npm install --no-optional --no-audit --no-fund --max_old_space_size=512
+    else
+        npm install
+    fi
+    
+    # 检查安装是否成功
+    if [ $? -ne 0 ]; then
+        echo "❌ npm install 失败，尝试其他方法..."
+        echo "🔄 清理缓存后重试..."
+        npm cache clean --force
+        rm -rf node_modules package-lock.json
+        
+        # 使用更保守的参数重试
+        echo "🔁 使用保守参数重新安装..."
+        npm install --no-optional --no-audit --no-fund --legacy-peer-deps
+        
+        if [ $? -ne 0 ]; then
+            echo "❌ npm install 仍然失败，请检查系统资源"
+            echo "💡 建议:"
+            echo "   1. 检查磁盘空间是否充足"
+            echo "   2. 增加服务器内存 (建议至少 1GB)"
+            echo "   3. 手动创建更大的交换文件"
+            exit 1
+        fi
+    fi
+    
+    echo "✅ 依赖安装完成"
     
     # 构建项目
     echo "🔨 构建前端项目..."
+    # 设置 Node.js 内存限制
+    export NODE_OPTIONS="--max_old_space_size=1024"
     npm run build
     
     # 验证构建产物
@@ -210,6 +263,23 @@ deploy_nginx() {
     echo "✅ Nginx 部署完成 (端口: $WEB_PORT)"
 }
 
+# 清理临时文件
+cleanup_temp_files() {
+    echo "🧹 清理临时文件..."
+    
+    # 如果创建了临时交换文件，则关闭并删除
+    if [ -f /swapfile ]; then
+        echo "🗑️  清理临时交换文件..."
+        sudo swapoff /swapfile 2>/dev/null || true
+        sudo rm -f /swapfile
+    fi
+    
+    # 清理 npm 缓存
+    npm cache clean --force 2>/dev/null || true
+    
+    echo "✅ 清理完成"
+}
+
 # 配置防火墙（可选）
 configure_firewall() {
     echo "🔒 配置防火墙..."
@@ -288,6 +358,7 @@ main() {
             deploy_netease_api
             deploy_nginx
             configure_firewall
+            cleanup_temp_files
             show_deployment_info
             ;;
         "restart")
