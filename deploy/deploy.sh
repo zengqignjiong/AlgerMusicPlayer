@@ -1,73 +1,71 @@
 #!/bin/bash
-# deploy.sh
+# deploy.sh - 部署脚本入口
+# 此脚本用于选择合适的部署方式
 
-echo "开始部署 Finder 音乐服务..."
+echo "🚀 AlgerMusicPlayer 部署脚本"
+echo "================================="
+echo ""
+echo "请选择部署方式:"
+echo ""
+echo "1. Debian/Ubuntu 服务器部署 (推荐)"
+echo "   - 使用 Docker 容器化部署"
+echo "   - 自动安装所有依赖"
+echo "   - 适合生产环境"
+echo ""
+echo "2. 传统方式部署 (旧版本)"
+echo "   - 使用 PM2 管理进程"
+echo "   - 需要手动配置环境"
+echo ""
 
-# 设置 /data/AlgerMusicPlayer 目录权限，允许 SFTP 读写
-echo "设置 /data/AlgerMusicPlayer 目录 SFTP 权限..."
-sudo mkdir -p /data/AlgerMusicPlayer
-sudo chown -R $USER:$USER /data/AlgerMusicPlayer
-sudo chmod -R 755 /data/AlgerMusicPlayer
+read -p "请输入选择 (1 或 2): " choice
 
-# 如果有 SFTP 用户组，也给予权限
-if getent group sftp >/dev/null 2>&1; then
-    sudo chgrp -R sftp /data/AlgerMusicPlayer
-    sudo chmod -R 775 /data/AlgerMusicPlayer
-fi
+case $choice in
+    1)
+        echo "使用 Debian/Ubuntu Docker 部署方式..."
+        if [ -f "deploy/deploy-debian.sh" ]; then
+            chmod +x deploy/deploy-debian.sh
+            exec ./deploy/deploy-debian.sh "$@"
+        else
+            echo "❌ 找不到 deploy-debian.sh 脚本"
+            exit 1
+        fi
+        ;;
+    2)
+        echo "使用传统部署方式..."
+        echo "⚠️  警告: 传统部署方式已过时，建议使用 Docker 部署"
+        read -p "确认继续? (y/N): " confirm
+        if [[ $confirm =~ ^[Yy]$ ]]; then
+            # 执行传统部署逻辑
+            deploy_legacy
+        else
+            echo "已取消部署"
+            exit 0
+        fi
+        ;;
+    *)
+        echo "❌ 无效选择"
+        exit 1
+        ;;
+esac
 
-echo "目录权限设置完成"
-
-# 部署网易云 API
-echo "部署网易云 API..."
-cd /data
-git clone git@github.com:zengqignjiong/neteasecloudmusicapi.git
-cd neteasecloudmusicapi
-npm install
-pm2 start app.js --name "netease-api" -- --port 3000
-
-# 部署音乐解锁 API
-echo "部署音乐解锁 API..."
-cd /data
-mkdir music-unlock-api
-cd music-unlock-api
-npm init -y
-npm install express cors @unblockneteasemusic/server
-
-# 复制音乐解锁服务代码到 music-unlock-server.js
-pm2 start music-unlock-server.js --name "music-unlock-api"
-
-# 构建 Finder 前端
-echo "构建 Finder 前端..."
-cd /data/AlgerMusicPlayer
-npm install
-npm run build
-
-# 验证构建产物
-echo "验证构建产物..."
-if [ ! -d "out/renderer" ]; then
-    echo "错误：构建产物目录 out/renderer 不存在！"
-    exit 1
-fi
-
-if [ ! -f "out/renderer/index.html" ]; then
-    echo "错误：index.html 文件不存在！"
-    exit 1
-fi
-
-echo "构建产物验证成功"
-ls -la out/renderer/
-
-# 清空nginx日志
-echo "清空nginx日志文件..."
-sudo truncate -s 0 /data/Nginx/logs/* 2>/dev/null || true
-
-# 部署到 Nginx
-# nginx直接访问路径out/renderer/
-cd /data/nginx
-docker compose -f docker-compose-nginx.yml down
-docker compose -f docker-compose-nginx.yml up -d
-
-echo "部署完成！"
-echo "网易云 API: https://music.finderhk.com:3000"
-echo "音乐解锁 API: https://music.finderhk.com:3001"
-echo "Finder 前端: https://music.finderhk.com"
+# 传统部署方式 (保留原有逻辑)
+deploy_legacy() {
+    echo "开始传统方式部署..."
+    
+    # 设置 /opt/AlgerMusicPlayer 目录权限
+    echo "设置部署目录权限..."
+    sudo mkdir -p /opt/AlgerMusicPlayer
+    sudo chown -R $USER:$USER /opt/AlgerMusicPlayer
+    sudo chmod -R 755 /opt/AlgerMusicPlayer
+    
+    echo "⚠️  传统部署需要手动完成以下步骤:"
+    echo "1. 安装 Node.js 18+"
+    echo "2. 安装 PM2: npm install -g pm2"
+    echo "3. 克隆网易云 API: git clone https://github.com/Binaryify/NeteaseCloudMusicApi.git"
+    echo "4. 安装依赖: npm install"
+    echo "5. 启动服务: pm2 start app.js --name netease-api"
+    echo "6. 构建前端: npm run build"
+    echo "7. 配置 Nginx"
+    echo ""
+    echo "详细步骤请参考 deploy/README-DEPLOY.md"
+}

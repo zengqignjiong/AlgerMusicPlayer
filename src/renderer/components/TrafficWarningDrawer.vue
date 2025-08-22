@@ -17,45 +17,13 @@
     :mask-closable="false"
   >
     <n-drawer-content
-      title="欢迎使用 AlgerMusicPlayer"
+      title="欢迎使用 FinderMusicPlayer"
       closable
       :native-scrollbar="false"
       class="mac-style-drawer"
     >
       <div class="drawer-container">
         <div class="warning-content">
-          <div class="warning-message">
-            <h3>获取完整体验</h3>
-            <p class="platform-support">
-              <span> <i class="ri-window-line mr-1"></i>Windows 10+ </span>
-              <span> <i class="ri-apple-line mr-1"></i>macOS </span>
-              <span> <i class="ri-ubuntu-line mr-1"></i>Linux </span>
-              <span> <i class="ri-android-line mr-1"></i>Android </span>
-            </p>
-            <p class="description">
-              下载桌面应用以获得最佳音乐体验，包含完整功能与更高音质。
-              目前无iOS版本，请使用安卓应用或网页版。
-            </p>
-          </div>
-
-          <div class="action-links">
-            <a
-              href="https://mp.weixin.qq.com/s/9pr1XQB36gShM_-TG2LBdg"
-              target="_blank"
-              class="doc-link"
-            >
-              <i class="ri-file-text-line mr-1"></i> 查看使用文档
-            </a>
-            <a href="http://donate.alger.fun/download" target="_blank" class="download-link">
-              <i class="ri-download-2-line mr-1"></i> 立即下载
-            </a>
-          </div>
-
-          <div class="qrcode-section">
-            <img class="qrcode" src="@/assets/gzh.png" alt="公众号" />
-            <p>关注公众号获取最新版本与更新信息</p>
-          </div>
-
           <div class="support-section">
             <h4>支持项目</h4>
             <p class="support-desc">您的支持是我们持续改进的动力</p>
@@ -168,113 +136,6 @@ onMounted(() => {
   gap: 24px;
 }
 
-.app-icon {
-  width: 100px;
-  height: 100px;
-  margin-bottom: 12px;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    border-radius: 14px;
-  }
-}
-
-.warning-message {
-  text-align: center;
-  max-width: 520px;
-
-  h3 {
-    font-size: 28px;
-    font-weight: 600;
-    margin-bottom: 18px;
-    color: #333;
-  }
-
-  .platform-support {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-bottom: 16px;
-
-    span {
-      display: flex;
-      align-items: center;
-      font-size: 16px;
-      color: #444;
-    }
-  }
-
-  .description {
-    font-size: 16px;
-    line-height: 1.6;
-    color: #444;
-    margin: 0 auto;
-  }
-}
-
-.action-links {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin: 6px 0;
-
-  a {
-    display: inline-flex;
-    align-items: center;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-size: 16px;
-    text-decoration: none;
-    transition: all 0.2s ease;
-
-    &.doc-link {
-      color: #555;
-      background-color: rgba(0, 0, 0, 0.05);
-
-      &:hover {
-        background-color: rgba(0, 0, 0, 0.1);
-      }
-    }
-
-    &.download-link {
-      color: #fff;
-      background-color: #007aff;
-
-      &:hover {
-        background-color: #0062cc;
-      }
-    }
-  }
-}
-
-.qrcode-section {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-
-  .qrcode {
-    width: 180px;
-    height: 180px;
-    border-radius: 10px;
-    padding: 10px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    background: white;
-  }
-
-  p {
-    margin-top: 14px;
-    font-size: 15px;
-    color: #0062cc;
-  }
-}
-
 .support-section {
   width: 100%;
   text-align: center;
@@ -359,32 +220,6 @@ onMounted(() => {
 }
 
 @media (max-width: 768px) {
-  .warning-message {
-    h3 {
-      font-size: 20px;
-    }
-
-    .platform-support {
-      gap: 12px;
-    }
-
-    .description {
-      font-size: 13px;
-    }
-  }
-
-  .app-icon {
-    width: 64px;
-    height: 64px;
-  }
-
-  .qrcode-section {
-    .qrcode {
-      width: 140px;
-      height: 140px;
-    }
-  }
-
   .payment-option {
     .payment-icon {
       width: 190px;
