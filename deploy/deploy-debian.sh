@@ -221,7 +221,7 @@ WORKDIR /app
 # 克隆网易云音乐 API (使用 HTTPS 方式，避免 SSH 密钥问题)
 RUN apk add --no-cache git && \
     git clone https://github.com/zengqignjiong/neteasecloudmusicapi.git . && \
-    npm install --production
+    npm ci --omit=dev --ignore-scripts
 
 EXPOSE 3000
 

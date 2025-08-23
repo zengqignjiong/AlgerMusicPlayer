@@ -1,5 +1,32 @@
-AlgerMusicPlayer
+AlgerMusicPlayer 服务器部署命令
 
-
+# 1. 基础部署命令
 chmod +x /opt/AlgerMusicPlayer/deploy/deploy.sh
 /opt/AlgerMusicPlayer/deploy/deploy.sh
+
+# 2. 如果需要清理重新部署
+cd /opt/AlgerMusicPlayer
+rm -rf netease-api
+docker system prune -f
+./deploy/deploy-debian.sh
+
+# 3. 直接使用 Debian 部署脚本 (推荐)
+chmod +x /opt/AlgerMusicPlayer/deploy/deploy-debian.sh
+/opt/AlgerMusicPlayer/deploy/deploy-debian.sh
+
+# 4. 低内存服务器部署
+chmod +x /opt/AlgerMusicPlayer/deploy/low-memory-deploy.sh
+/opt/AlgerMusicPlayer/deploy/low-memory-deploy.sh
+
+# 5. 配置化部署 (可自定义仓库地址)
+chmod +x /opt/AlgerMusicPlayer/deploy/deploy-with-config.sh
+/opt/AlgerMusicPlayer/deploy/deploy-with-config.sh
+
+# 6. 服务管理命令
+./deploy/deploy-debian.sh status    # 查看状态
+./deploy/deploy-debian.sh restart   # 重启服务
+./deploy/deploy-debian.sh stop      # 停止服务
+
+# 7. 查看日志
+docker-compose -f deploy/nginx/docker-compose-nginx.yml logs -f
+docker-compose -f netease-api/docker-compose.yml logs -f
