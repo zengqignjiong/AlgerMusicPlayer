@@ -1,0 +1,5 @@
+AlgerMusicPlayer
+
+
+chmod +x /opt/AlgerMusicPlayer/deploy/deploy.sh
+/opt/AlgerMusicPlayer/deploy/deploy.sh

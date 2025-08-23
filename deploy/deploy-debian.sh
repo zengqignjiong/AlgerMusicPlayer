@@ -212,16 +212,16 @@ deploy_netease_api() {
     mkdir -p netease-api
     cd netease-api
     
-    # 创建 Dockerfile
+    # 创建 Dockerfile (使用 HTTPS 克隆，更可靠)
     cat > Dockerfile << 'EOF'
 FROM node:18-alpine
 
 WORKDIR /app
 
-# 克隆网易云音乐 API
+# 克隆网易云音乐 API (使用 HTTPS 方式，避免 SSH 密钥问题)
 RUN apk add --no-cache git && \
-    git clone https://github.com/Binaryify/NeteaseCloudMusicApi.git . && \
-    npm install
+    git clone https://github.com/zengqignjiong/neteasecloudmusicapi.git . && \
+    npm install --production
 
 EXPOSE 3000
 

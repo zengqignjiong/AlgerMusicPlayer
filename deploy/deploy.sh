@@ -61,7 +61,7 @@ deploy_legacy() {
     echo "⚠️  传统部署需要手动完成以下步骤:"
     echo "1. 安装 Node.js 18+"
     echo "2. 安装 PM2: npm install -g pm2"
-    echo "3. 克隆网易云 API: git clone https://github.com/Binaryify/NeteaseCloudMusicApi.git"
+    echo "3. 克隆网易云 API: git clone https://github.com/zengqignjiong/neteasecloudmusicapi.git"
     echo "4. 安装依赖: npm install"
     echo "5. 启动服务: pm2 start app.js --name netease-api"
     echo "6. 构建前端: npm run build"

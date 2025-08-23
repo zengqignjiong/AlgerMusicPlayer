@@ -6,9 +6,15 @@
 deploy/
 ├── deploy-debian.sh         # 主要部署脚本 - Debian/Ubuntu Docker 部署
 ├── deploy.sh               # 部署入口脚本 - 提供部署方式选择
+├── deploy-with-config.sh   # 🆕 配置化部署脚本 - 支持自定义配置
 ├── quick-deploy.sh         # 快速部署脚本 - 一键部署
-├── README-DEPLOY.md        # 详细部署文档和故障排除指南
-└── nginx/                  # Nginx 配置目录
+├── low-memory-deploy.sh    # 低内存服务器专用部署脚本
+├── fix-deploy.sh          # 部署问题修复脚本
+├── config.env             # 🆕 部署配置文件 - 可自定义仓库地址等
+├── README.md              # 本文档 - 目录说明
+├── README-DEPLOY.md       # 详细部署文档和故障排除指南
+├── TROUBLESHOOTING.md     # 故障排除专用指南
+└── nginx/                 # Nginx 配置目录
     ├── docker-compose-nginx.yml    # Nginx Docker 编排配置
     ├── nginx.conf                  # Nginx 主配置文件
     ├── conf/
@@ -20,6 +26,20 @@ deploy/
 ```
 
 ## 🚀 快速使用
+
+### 配置化部署 (🆕 推荐)
+
+```bash
+# 1. 编辑配置文件 (可选)
+nano deploy/config.env
+
+# 2. 使用配置部署
+cd /opt/AlgerMusicPlayer/deploy
+sudo ./deploy-with-config.sh
+
+# 3. 查看当前配置
+./deploy-with-config.sh config
+```
 
 ### 完整部署
 ```bash
