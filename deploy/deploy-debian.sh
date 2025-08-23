@@ -262,8 +262,18 @@ deploy_nginx() {
     echo "🌐 部署 Nginx 和前端..."
     
     # 回到项目根目录，然后进入 nginx 配置目录
-    cd "$(dirname "${BASH_SOURCE[0]}")"/../  # 回到项目根目录
-    cd deploy/nginx
+    PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+    echo "📂 项目根目录: $PROJECT_ROOT"
+    
+    cd "$PROJECT_ROOT/deploy/nginx" || {
+        echo "❌ 无法进入 nginx 配置目录"
+        echo "📍 当前目录: $(pwd)"
+        echo "📁 目录内容:"
+        ls -la
+        exit 1
+    }
+    
+    echo "📂 当前 nginx 配置目录: $(pwd)"
     
     # 更新 nginx 配置中的 API 端口
     sed -i "s/127\.0\.0\.1:30488/127.0.0.1:$NETEASE_API_PORT/g" conf/music.conf
@@ -342,12 +352,21 @@ restart_services() {
     
     # 获取项目根目录
     PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+    echo "📂 项目根目录: $PROJECT_ROOT"
     
-    cd "$PROJECT_ROOT/netease-api"
-    docker-compose restart
+    if [ -d "$PROJECT_ROOT/netease-api" ]; then
+        cd "$PROJECT_ROOT/netease-api" || exit 1
+        docker-compose restart
+    else
+        echo "⚠️  网易云 API 目录不存在，跳过重启"
+    fi
     
-    cd "$PROJECT_ROOT/deploy/nginx"
-    docker-compose -f docker-compose-nginx.yml restart
+    if [ -d "$PROJECT_ROOT/deploy/nginx" ]; then
+        cd "$PROJECT_ROOT/deploy/nginx" || exit 1
+        docker-compose -f docker-compose-nginx.yml restart
+    else
+        echo "⚠️  Nginx 配置目录不存在，跳过重启"
+    fi
     
     echo "✅ 服务重启完成"
     show_deployment_info
@@ -359,12 +378,21 @@ stop_services() {
     
     # 获取项目根目录
     PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+    echo "📂 项目根目录: $PROJECT_ROOT"
     
-    cd "$PROJECT_ROOT/netease-api"
-    docker-compose down
+    if [ -d "$PROJECT_ROOT/netease-api" ]; then
+        cd "$PROJECT_ROOT/netease-api" || exit 1
+        docker-compose down
+    else
+        echo "⚠️  网易云 API 目录不存在，跳过停止"
+    fi
     
-    cd "$PROJECT_ROOT/deploy/nginx"
-    docker-compose -f docker-compose-nginx.yml down
+    if [ -d "$PROJECT_ROOT/deploy/nginx" ]; then
+        cd "$PROJECT_ROOT/deploy/nginx" || exit 1
+        docker-compose -f docker-compose-nginx.yml down
+    else
+        echo "⚠️  Nginx 配置目录不存在，跳过停止"
+    fi
     
     echo "✅ 服务已停止"
 }
