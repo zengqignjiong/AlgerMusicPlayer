@@ -1566,3 +1566,79 @@
 2025/08/22 13:21:32 [error] 19#19: *178 rewrite or internal redirection cycle while internally redirecting to "/index.html", client: 127.0.0.1, server: music.finderhk.com, request: "GET /assets/wechat-DnnBeqpa.png HTTP/1.1", host: "music.test", referrer: "http://music.test/"
 2025/08/22 13:21:34 [error] 20#20: *181 rewrite or internal redirection cycle while internally redirecting to "/index.html", client: 127.0.0.1, server: music.finderhk.com, request: "GET /assets/wechat-DnnBeqpa.png HTTP/1.1", host: "music.test", referrer: "http://music.test/"
 2025/08/22 13:21:35 [error] 19#19: *182 rewrite or internal redirection cycle while internally redirecting to "/index.html", client: 127.0.0.1, server: music.finderhk.com, request: "GET /assets/wechat-DnnBeqpa.png HTTP/1.1", host: "music.test", referrer: "http://music.test/"
+2025/08/24 01:08:24 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2025/08/24 01:08:24 [notice] 20#20: gracefully shutting down
+2025/08/24 01:08:24 [notice] 28#28: gracefully shutting down
+2025/08/24 01:08:24 [notice] 22#22: gracefully shutting down
+2025/08/24 01:08:24 [notice] 21#21: gracefully shutting down
+2025/08/24 01:08:24 [notice] 24#24: gracefully shutting down
+2025/08/24 01:08:24 [notice] 20#20: exiting
+2025/08/24 01:08:24 [notice] 19#19: gracefully shutting down
+2025/08/24 01:08:24 [notice] 23#23: gracefully shutting down
+2025/08/24 01:08:24 [notice] 25#25: gracefully shutting down
+2025/08/24 01:08:24 [notice] 26#26: gracefully shutting down
+2025/08/24 01:08:24 [notice] 27#27: gracefully shutting down
+2025/08/24 01:08:24 [notice] 29#29: gracefully shutting down
+2025/08/24 01:08:24 [notice] 30#30: gracefully shutting down
+2025/08/24 01:08:24 [notice] 28#28: exiting
+2025/08/24 01:08:24 [notice] 22#22: exiting
+2025/08/24 01:08:24 [notice] 21#21: exiting
+2025/08/24 01:08:24 [notice] 24#24: exiting
+2025/08/24 01:08:24 [notice] 20#20: exit
+2025/08/24 01:08:24 [notice] 19#19: exiting
+2025/08/24 01:08:24 [notice] 23#23: exiting
+2025/08/24 01:08:24 [notice] 25#25: exiting
+2025/08/24 01:08:24 [notice] 26#26: exiting
+2025/08/24 01:08:24 [notice] 28#28: exit
+2025/08/24 01:08:24 [notice] 19#19: exit
+2025/08/24 01:08:24 [notice] 22#22: exit
+2025/08/24 01:08:24 [notice] 30#30: exiting
+2025/08/24 01:08:24 [notice] 27#27: exiting
+2025/08/24 01:08:24 [notice] 21#21: exit
+2025/08/24 01:08:24 [notice] 29#29: exiting
+2025/08/24 01:08:24 [notice] 24#24: exit
+2025/08/24 01:08:24 [notice] 23#23: exit
+2025/08/24 01:08:24 [notice] 26#26: exit
+2025/08/24 01:08:24 [notice] 25#25: exit
+2025/08/24 01:08:24 [notice] 30#30: exit
+2025/08/24 01:08:24 [notice] 27#27: exit
+2025/08/24 01:08:24 [notice] 29#29: exit
+2025/08/24 01:08:24 [notice] 1#1: signal 17 (SIGCHLD) received from 30
+2025/08/24 01:08:24 [notice] 1#1: worker process 20 exited with code 0
+2025/08/24 01:08:24 [notice] 1#1: worker process 22 exited with code 0
+2025/08/24 01:08:24 [notice] 1#1: worker process 23 exited with code 0
+2025/08/24 01:08:24 [notice] 1#1: worker process 24 exited with code 0
+2025/08/24 01:08:24 [notice] 1#1: worker process 30 exited with code 0
+2025/08/24 01:08:24 [notice] 1#1: signal 29 (SIGIO) received
+2025/08/24 01:08:24 [notice] 1#1: signal 17 (SIGCHLD) received from 22
+2025/08/24 01:08:24 [notice] 1#1: signal 17 (SIGCHLD) received from 21
+2025/08/24 01:08:24 [notice] 1#1: worker process 21 exited with code 0
+2025/08/24 01:08:24 [notice] 1#1: signal 29 (SIGIO) received
+2025/08/24 01:08:24 [notice] 1#1: signal 17 (SIGCHLD) received from 28
+2025/08/24 01:08:24 [notice] 1#1: worker process 26 exited with code 0
+2025/08/24 01:08:24 [notice] 1#1: worker process 27 exited with code 0
+2025/08/24 01:08:24 [notice] 1#1: worker process 28 exited with code 0
+2025/08/24 01:08:24 [notice] 1#1: worker process 29 exited with code 0
+2025/08/24 01:08:24 [notice] 1#1: signal 29 (SIGIO) received
+2025/08/24 01:08:24 [notice] 1#1: signal 17 (SIGCHLD) received from 19
+2025/08/24 01:08:24 [notice] 1#1: worker process 19 exited with code 0
+2025/08/24 01:08:24 [notice] 1#1: worker process 25 exited with code 0
+2025/08/24 01:08:24 [notice] 1#1: exit
+2025/08/24 02:29:47 [notice] 1#1: using the "epoll" event method
+2025/08/24 02:29:47 [notice] 1#1: nginx/1.29.1
+2025/08/24 02:29:47 [notice] 1#1: built by gcc 12.2.0 (Debian 12.2.0-14+deb12u1) 
+2025/08/24 02:29:47 [notice] 1#1: OS: Linux 5.15.167.4-microsoft-standard-WSL2
+2025/08/24 02:29:47 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2025/08/24 02:29:47 [notice] 1#1: start worker processes
+2025/08/24 02:29:47 [notice] 1#1: start worker process 20
+2025/08/24 02:29:47 [notice] 1#1: start worker process 21
+2025/08/24 02:29:47 [notice] 1#1: start worker process 22
+2025/08/24 02:29:47 [notice] 1#1: start worker process 23
+2025/08/24 02:29:47 [notice] 1#1: start worker process 24
+2025/08/24 02:29:47 [notice] 1#1: start worker process 25
+2025/08/24 02:29:47 [notice] 1#1: start worker process 26
+2025/08/24 02:29:47 [notice] 1#1: start worker process 27
+2025/08/24 02:29:47 [notice] 1#1: start worker process 28
+2025/08/24 02:29:47 [notice] 1#1: start worker process 29
+2025/08/24 02:29:47 [notice] 1#1: start worker process 30
+2025/08/24 02:29:47 [notice] 1#1: start worker process 31
